@@ -13,21 +13,41 @@
         static async Task Main(string[] args)
         {
             //get access token
-            string accessToken = await GetAccessTokenAsync(CoreConstant.IdentityServiceUrl, "{clientId}", "{cerPrint}");
+            string accessToken = await GetAccessTokenAsyncByCertificatePath(CoreConstant.IdentityServiceUrl, "{clientId}", "{certificate file Path}");
             //get Insights Api Client
             InsightsApiClient insightsClient = GetClient(accessToken);
         }
+
         /// <summary>
-        /// Get Access Token
+        /// Get Access Token By Local certificate file
+        /// </summary>
+        /// <param name="url">identity service url</param>
+        /// <param name="clientId">identity service clientId</param>
+        /// <param name="certificatePath">certificate file Path</param>
+        static async Task<string> GetAccessTokenAsyncByCertificatePath(string url, string clientId, string certificatePath)
+        {
+            try
+            {
+                return await new PublicIdentityServiceHelperSample().GetAccessTokenAsyncByCertificatePath(url, clientId, certificatePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get Access Token By CerPrint
         /// </summary>
         /// <param name="url">identity service url</param>
         /// <param name="clientId">identity service clientId</param>
         /// <param name="cerPrint">certificate Thumbprint</param>
-        static async Task<string> GetAccessTokenAsync(string url, string clientId, string cerPrint)
+        static async Task<string> GetAccessTokenAsyncByCerPrint(string url, string clientId, string cerPrint)
         {
             try
             {
-                return await new PublicIdentityServiceHelperSample().GetAccessTokenAsync(url, clientId, cerPrint);
+                return await new PublicIdentityServiceHelperSample().GetAccessTokenAsyncByCerPrint(url, clientId, cerPrint);
             }
             catch (Exception e)
             {
