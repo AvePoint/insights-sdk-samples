@@ -10,6 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Threading;
+    using System.IO;
     #endregion
     public class ExportLinkSample
     {
@@ -25,7 +26,7 @@
         /// <summary>
         /// Get export file
         /// </summary>
-        public async Task<FileResponse> GetExportFileAsync(InsightsApiClient insightsClient, int id)
+        public async Task GetExportFileAsync(InsightsApiClient insightsClient, int id)
         {
             //first check export job status
             while (true)
@@ -39,7 +40,34 @@
                 Thread.Sleep(2 * 1000 * 60);
             }
             //Get export Site permission file
-            return await insightsClient.GetExportFileAsync(id.ToString());
+            FileResponse response = await insightsClient.GetExportFileAsync(id.ToString());
+            if (response != null && (response.StatusCode == 200 || response.StatusCode == 206))
+            {
+                GetFile(response, "targetPath");
+            }
+        }
+
+        /// <summary>
+        /// Get File Note:The file type is compressed file
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="targetPath"></param>
+        private static void GetFile(FileResponse response, string targetPath)
+        {
+            using (FileStream fs1 = File.OpenWrite(Path.Combine(targetPath, $"{DateTime.UtcNow.Ticks}.zip")))
+            {
+                using (Stream st = response.Stream)
+                {
+                    byte[] buffer = new byte[1024];
+                    int numBytesRead = 0;
+                    do
+                    {
+                        numBytesRead = st.Read(buffer, 0, 1024);
+                        fs1.Write(buffer, 0, numBytesRead);
+                    }
+                    while (numBytesRead > 0);
+                }
+            }
         }
 
         /// <summary>
