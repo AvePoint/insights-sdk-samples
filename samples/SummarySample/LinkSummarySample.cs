@@ -24,7 +24,7 @@
             do
             {
                 LinkViewModuleOptions linkViewModuleOptions = GetRequestOption(token);
-                LinkViewModuleResultList linkViewModuleResultList = await insightsClient.GetLinksSummaryAsync(linkViewModuleOptions);
+                ResultListOfLinkViewModule linkViewModuleResultList = await insightsClient.Group_GetLinksAsync(linkViewModuleOptions);
                 if (linkViewModuleResultList != null && !linkViewModuleResultList.Results.IsNullOrEmpty())
                 {
                     linkSummaryViews.AddRange(linkViewModuleResultList.Results);

@@ -20,7 +20,7 @@
         public async Task<ExportResult> ExportLinkAsync(InsightsApiClient insightsClient)
         {
             ExportOptions exportOptions = GetRequestOption();
-            return await insightsClient.ExportLinkAsync(exportOptions);
+            return await insightsClient.Permission_ExportLinkAsync(exportOptions);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
                 Thread.Sleep(2 * 1000 * 60);
             }
             //Get export Site permission file
-            FileResponse response = await insightsClient.GetExportFileAsync(id.ToString());
+            FileResponse response = await insightsClient.Permission_GetFileAsync(id.ToString());
             if (response != null && (response.StatusCode == 200 || response.StatusCode == 206))
             {
                 GetFile(response, "targetPath");
@@ -82,7 +82,7 @@
             //SuccessWithException = 4,
             //Stopping = 5,
             //Stopped = 6
-            InsightsExportResult insightsExportResult = await insightsClient.GetExportStatusAsync(id.ToString());
+            InsightsExportResult insightsExportResult = await insightsClient.Permission_GetExportStatusAsync(id.ToString());
             return insightsExportResult.Status;
         }
 
@@ -95,12 +95,18 @@
             ExportOptions exportOptions = new ExportOptions();
 
             #region Required
-            //Sets whether to export organization links.
-            //True (for organization link)
-            //False (for external link)
-            exportOptions.ExportOrganizationLink = true;
             //Sets the language of the report you are about to export.Default: en-US Support: en-US/ja-JP/fr-FR
             exportOptions.Language = "en-US";
+            //Set the export link type.
+            //AnonymousLink (for organization link)
+            //FlexibleLink (for external link)
+            //OrganizationLink (for organization link)
+            exportOptions.ExportLinkType = PrincipalType.AnonymousLink;
+            
+            // Filter Link Create By Time, Time format:yyyy-MM-ddTHH:mm:ss"
+            exportOptions.StartTime = "2023-01-01T01:37:57";
+            // Filter Link Create By Time, Time format:yyyy-MM-ddTHH:mm:ss"
+            exportOptions.EndTime = "2023-05-01T01:37:57";
             #endregion
 
             return exportOptions;

@@ -25,7 +25,7 @@
             do
             {
                 AccessViewModuleOptions userAccessOptions = GetRequestOption(token);
-                AccessViewModuleResultList accessViewModuleResultList = await insightsClient.GetUserAccessAsync(userAccessOptions);
+                ResultListOfAccessViewModule accessViewModuleResultList = await insightsClient.User_GetPermissionAsync(userAccessOptions);
                 if (accessViewModuleResultList != null && !accessViewModuleResultList.Results.IsNullOrEmpty())
                 {
                     accessViews.AddRange(accessViewModuleResultList.Results);
