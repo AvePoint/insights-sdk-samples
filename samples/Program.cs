@@ -2,6 +2,7 @@
 {
     #region using directives
     using Insights.Client;
+    using Insights.Sdk.Samples.ExportSample;
     using Insights.Sdk.Samples.GetAccessTokenSample;
     using System;
     using System.Net.Http;
@@ -13,9 +14,12 @@
         static async Task Main(string[] args)
         {
             //get access token
-            string accessToken = await GetAccessTokenAsyncByCertificatePath(CoreConstant.IdentityServiceUrl, "{clientId}", "{certificate file Path}");
+            string accessToken = await GetAccessTokenAsyncByCertificatePath(CoreConstant.IdentityServiceUrl, "dde58be3-25b7-44aa-9ef5-3a9267216058", "C:\\Code\\dev\\insights-client\\sample\\Cer\\CGO.pfx");
             //get Insights Api Client
             InsightsApiClient insightsClient = GetClient(accessToken);
+            ExportSitePermissionSample exportSitePermissionSample = new ExportSitePermissionSample();
+            await exportSitePermissionSample.GetExportFileAsync(insightsClient, 448);
+
         }
 
         /// <summary>

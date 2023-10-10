@@ -20,7 +20,7 @@
         public async Task<ExportResult> ExportUserPermissionAsync(InsightsApiClient insightsClient)
         {
             ExportOptions exportOptions = GetRequestOption();
-            return await insightsClient.ExportUserAccessAsync(exportOptions);
+            return await insightsClient.Permission_ExportUserAccessAsync(exportOptions);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
                 Thread.Sleep(2 * 1000 * 60);
             }
             //Get export Site permission file
-            FileResponse response = await insightsClient.GetExportFileAsync(id.ToString());
+            FileResponse response = await insightsClient.Permission_GetFileAsync(id.ToString());
             if (response != null && (response.StatusCode == 200 || response.StatusCode == 206))
             {
                 GetFile(response, "targetPath");
@@ -82,7 +82,7 @@
             //SuccessWithException = 4,
             //Stopping = 5,
             //Stopped = 6
-            InsightsExportResult insightsExportResult = await insightsClient.GetExportStatusAsync(id.ToString());
+            InsightsExportResult insightsExportResult = await insightsClient.Permission_GetExportStatusAsync(id.ToString());
             return insightsExportResult.Status;
         }
 
@@ -119,10 +119,16 @@
             exportOptions.Language = "en-US";
             //Sets the export option of the report you are about to export.
             /// So far support:
-            /// 1 - for exporting both the summary report and site collection level access report
-            /// 2 - for exporting both the summary report and access report to all objects in the configured data scope
-            /// 3 - for only exporting the summary report
-            exportOptions.ExportOptionType = ExportOptionType._1;
+            /// ExportOptionType.SiteOnly - for exporting both the summary report and site collection level access report
+            /// ExportOptionType.WithObject - for exporting both the summary report and access report to all objects in the configured data scope
+            /// ExportOptionType.WithObject - for only exporting the summary report
+            exportOptions.ExportOptionType = ExportOptionType.SiteOnly;
+            //Sets the URLs of site collections for which you want to export the permission report. 100  at most.
+            exportOptions.SiteUrls = new List<string>()
+            {
+                "https://xxxx.sharepoint.com/sites/sample1",
+                "https://xxxx.sharepoint.com/sites/sample2"
+            };
             #endregion
 
             return exportOptions;

@@ -20,7 +20,7 @@
         public async Task<ExportResult> ExportSitePermissionAsync(InsightsApiClient insightsClient)
         {
             ExportOptions exportOptions = GetRequestOption();
-            ExportResult result =  await insightsClient.ExportSitePermissionAsync(exportOptions);
+            ExportResult result =  await insightsClient.Permission_ExportSitePermissionAsync(exportOptions);
             return result;
         }
 
@@ -41,7 +41,7 @@
                 Thread.Sleep(2 * 1000 * 60);
             }
             //Get export Site permission file
-            FileResponse response = await insightsClient.GetExportFileAsync(id.ToString());
+            FileResponse response = await insightsClient.Permission_GetFileAsync(id.ToString());
             if (response != null && (response.StatusCode == 200 || response.StatusCode == 206))
             {
                 GetFile(response, "targetPath");
@@ -83,7 +83,7 @@
             //SuccessWithException = 4,
             //Stopping = 5,
             //Stopped = 6
-            InsightsExportResult insightsExportResult = await insightsClient.GetExportStatusAsync(id.ToString());
+            InsightsExportResult insightsExportResult = await insightsClient.Permission_GetExportStatusAsync(id.ToString());
             return insightsExportResult.Status;
         }
 
@@ -96,7 +96,7 @@
             ExportOptions exportOptions = new ExportOptions();
 
             #region Required
-            //Sets the URLs of site collections for which you want to export the permission report. 100 email addresses at most.
+            //Sets the URLs of site collections for which you want to export the permission report. 100 at most.
             exportOptions.SiteUrls = new List<string>()
             {
                 "https://xxxx.sharepoint.com/sites/sample1",

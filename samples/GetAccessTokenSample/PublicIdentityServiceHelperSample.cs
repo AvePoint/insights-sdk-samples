@@ -155,7 +155,7 @@
         /// <returns></returns>
         private static X509Certificate2 GetX509Certificate2(string path)
         {
-            var cer = new X509Certificate2(path, "Certificate PassWord");
+            var cer = new X509Certificate2(path, "a!v@e#p$o%i^n&t");
             return cer;
         }
 

@@ -20,7 +20,7 @@
         public async Task<ExportResult> ExportUserActivityAsync(InsightsApiClient insightsClient)
         {
             ActivityExportOptions userActiviytExportOptions = GetUserActiviytRequestOption();
-            return await insightsClient.ExportActivityAsync(userActiviytExportOptions);
+            return await insightsClient.Activity_ExportAsync(userActiviytExportOptions);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         public async Task<ExportResult> ExportObjectActivityAsync(InsightsApiClient insightsClient)
         {
             ActivityExportOptions objectActivityExportOptions = GetObjectActivityRequestOption();
-            return await insightsClient.ExportActivityAsync(objectActivityExportOptions);
+            return await insightsClient.Activity_ExportAsync(objectActivityExportOptions);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@
                 Thread.Sleep(2 * 1000 * 60);
             }
             //Get export activity file
-            var response = await insightsClient.GetExportActivityFileAsync(id.ToString());
-            if (response != null && (response.StatusCode == 200 || response.StatusCode == 206))
+            var response = await insightsClient.Activity_GetFileAsync(id.ToString());
+            if (response != null)
             {
                 GetFile(response, "targetPath");
             }
@@ -65,7 +65,7 @@
         {
             using (FileStream fs1 = File.OpenWrite(Path.Combine(targetPath, $"{DateTime.UtcNow.Ticks}.zip")))
             {
-                using (Stream st = response.Stream)
+                using (System.IO.Stream st = response.Stream)
                 {
                     byte[] buffer = new byte[1024];
                     int numBytesRead = 0;
@@ -91,7 +91,7 @@
             //SuccessWithException = 4,
             //Stopping = 5,
             //Stopped = 6
-            InsightsExportResult insightsExportResult = await insightsClient.GetExportActivityStatusAsync(id.ToString());
+            InsightsExportResult insightsExportResult = await insightsClient.Activity_GetExportStatusAsync(id.ToString());
             return insightsExportResult.Status;
         }
 
