@@ -25,7 +25,7 @@
             {
                 SitePermissionViewModuleOptions userAccessOptions = GetRequestOption(token);
                 ResultListOfSitePermissionViewModule sitePermissionViewModuleResultList = await insightsClient.Site_GetSitePermissionAsync(userAccessOptions);
-                if (sitePermissionViewModuleResultList != null && !sitePermissionViewModuleResultList.Results.IsNullOrEmpty())
+                if (sitePermissionViewModuleResultList != null && sitePermissionViewModuleResultList.Results != null)
                 {
                     sitePermissionsViews.AddRange(sitePermissionViewModuleResultList.Results);
                 }

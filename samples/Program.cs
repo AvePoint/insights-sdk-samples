@@ -14,7 +14,8 @@
         static async Task Main(string[] args)
         {
             //get access token
-            string accessToken = await GetAccessTokenAsyncByCertificatePath(CoreConstant.IdentityServiceUrl, "dde58be3-25b7-44aa-9ef5-3a9267216058", "C:\\Code\\dev\\insights-client\\sample\\Cer\\CGO.pfx");
+            string accessToken = await GetAccessTokenAsyncByCertificatePath(CoreConstant.IdentityServiceUrl, "dde58be3-25b7-44aa-9ef5-3a9267216058", "C:\\Certificate\\InsightsTest.pfx");
+            //string accessToken = await GetAccessTokenAsyncByClientSecret(CoreConstant.IdentityServiceUrl, "dde58be3-25b7-44aa-9ef5-3a9267216058", "c2+rAxz9gKD6ZfdGKb............");
             //get Insights Api Client
             InsightsApiClient insightsClient = GetClient(accessToken);
             ExportSitePermissionSample exportSitePermissionSample = new ExportSitePermissionSample();

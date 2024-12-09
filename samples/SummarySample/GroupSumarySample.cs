@@ -24,7 +24,7 @@
             {
                 SummaryViewModuleOptions groupSummaryOptions = GetRequestOption(startPage);
                 ResultListOfGroupSummaryViewModule groupSummaryViewModuleResultList = await insightsClient.Group_GetGroupSummaryAsync(groupSummaryOptions);
-                if (groupSummaryViewModuleResultList != null && !groupSummaryViewModuleResultList.Results.IsNullOrEmpty())
+                if (groupSummaryViewModuleResultList != null && groupSummaryViewModuleResultList.Results != null)
                 {
                     groupSummaryViews.AddRange(groupSummaryViewModuleResultList.Results);
                     startPage++;

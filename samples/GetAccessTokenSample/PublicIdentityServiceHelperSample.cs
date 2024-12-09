@@ -92,6 +92,40 @@
         }
 
         /// <summary>
+        /// Get Access Token By ClientSecret
+        /// </summary>
+        /// <param name="url">identity service url</param>
+        /// <param name="clientId">identity service clientId</param>
+        /// <param name="clientSecret">ClientSecret</param>
+        public async Task<string> GetAccessTokenAsyncByClientSecret(string Url, string clientId, string clientSecret)
+        {
+            var token = string.Empty;
+
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync(Url);
+            if (disco.IsError)
+            {
+                Console.WriteLine(disco.Error);
+                return token;
+            }
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Scope = "insights.graph.readwrite.all",
+            });
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+                return token;
+            }
+            token = tokenResponse.AccessToken;
+
+            return token;
+        }
+
+        /// <summary>
         /// Create Client Auth Jwt
         /// </summary>
         /// <param name="response">DiscoveryDocumentResponse</param>

@@ -23,7 +23,7 @@
             {
                 SummaryViewModuleOptions userSummaryOptions = GetRequestOption(startPage);
                 ResultListOfUserSummaryViewModule userSummaryViewModuleResultList = await insightsClient.User_GetUserSummaryAsync(userSummaryOptions);
-                if (userSummaryViewModuleResultList != null && !userSummaryViewModuleResultList.Results.IsNullOrEmpty())
+                if (userSummaryViewModuleResultList != null && userSummaryViewModuleResultList.Results != null)
                 {
                     userSummaryViews.AddRange(userSummaryViewModuleResultList.Results);
                     startPage ++;
