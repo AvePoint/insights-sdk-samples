@@ -101,7 +101,7 @@
             //AnonymousLink (for organization link)
             //FlexibleLink (for external link)
             //OrganizationLink (for organization link)
-            exportOptions.ExportLinkType = PrincipalType.AnonymousLink;
+            exportOptions.ExportLinkType = PrincipalTypes.AnonymousLink;
             
             // Filter Link Create By Time, Time format:yyyy-MM-ddTHH:mm:ss"
             exportOptions.StartTime = "2023-01-01T01:37:57";
